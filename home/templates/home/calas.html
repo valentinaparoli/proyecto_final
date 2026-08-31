@@ -1,0 +1,344 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Calas | Mallorca</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
+                        url('https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #263238;
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #263746;
+        }
+
+        .navbar-brand {
+            color: #d9e2e8 !important;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            color: #c6d1d8 !important;
+            margin-left: 10px;
+            padding: 8px 18px !important;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: #405563;
+            color: #ffffff !important;
+        }
+
+        /* Contenido */
+        .main-container {
+            padding-top: 50px;
+            padding-bottom: 60px;
+        }
+
+        .page-title {
+            color: #ffffff;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .page-description {
+            color: #e2e8f0;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Tabla */
+        .table-container {
+            background-color: rgba(244, 246, 247, 0.95);
+            backdrop-filter: blur(5px);
+            border: 1px solid #d5dde2;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .table {
+            margin-bottom: 0;
+            vertical-align: middle;
+        }
+
+        .table thead {
+            background-color: #405563;
+            color: #ffffff;
+        }
+
+        .table thead th {
+            border: none;
+            padding: 15px;
+            font-weight: 500;
+        }
+
+        .table tbody td {
+            color: #455a64;
+            padding: 15px;
+            border-color: #d9e0e4;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e8edef;
+        }
+
+        /* Botones */
+        .btn-action {
+            border-radius: 5px;
+            padding: 6px 14px;
+            font-size: 0.9rem;
+        }
+
+        .btn-view {
+            background-color: #607d8b;
+            color: white;
+            border: none;
+        }
+
+        .btn-view:hover {
+            background-color: #78909c;
+            color: white;
+        }
+
+        .btn-edit {
+            background-color: #455a64;
+            color: white;
+            border: none;
+        }
+
+        .btn-edit:hover {
+            background-color: #546e7a;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #8a5a5a;
+            color: white;
+            border: none;
+        }
+
+        .btn-delete:hover {
+            background-color: #a66a6a;
+            color: white;
+        }
+
+        .btn-new {
+            background-color: #405563;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+        }
+
+        .btn-new:hover {
+            background-color: #526b79;
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #263746;
+            color: #aebbc3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+
+            <a class="navbar-brand" href="{% url 'home' %}">
+                Mallorca Turística
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Mostrar navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'listar_calas' %}">
+                            Calas
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Contenido principal -->
+    <main class="container main-container">
+
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+            <div>
+                <h1 class="page-title mb-2">
+                    Listado de Calas
+                </h1>
+
+                <p class="page-description mb-0">
+                    Explorá las mejores calas y playas de Mallorca.
+                </p>
+            </div>
+
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+
+                <!-- Buscador -->
+                <form method="GET" class="d-flex">
+
+                    <input type="text" name="q" class="form-control" placeholder="Buscar cala..."
+                        value="{{ request.GET.q }}">
+
+                    <button type="submit" class="btn btn-new ms-2">
+                        Buscar
+                    </button>
+
+                    {% if request.GET.q %}
+                        <a href="?" class="btn btn-outline-light ms-2 d-flex align-items-center">Limpiar</a>
+                    {% endif %}
+
+                </form>
+
+                <!-- Nueva cala -->
+                <a href="#" class="btn btn-new">
+                    + Agregar Cala
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Tabla -->
+        <div class="table-container">
+
+            <div class="table-responsive">
+
+                <table class="table">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Nombre de la Cala
+                            </th>
+
+                            <th scope="col">
+                                Ubicación
+                            </th>
+
+                            <th scope="col" class="text-center">
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for cala in calas %}
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    {{ cala.nombre }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ cala.ubicacion }}
+                            </td>
+
+                            <td class="text-center">
+
+                                <div class="d-flex justify-content-center gap-2">
+
+                                    <!-- Ver -->
+                                    <a href="{% url 'ver_cala' cala.id %}" class="btn btn-action btn-view">
+                                        Ver
+                                    </a>
+
+                                    <!-- Editar -->
+                                    <a href="{% url 'editar_cala' cala.id %}" class="btn btn-action btn-edit">
+                                        Editar
+                                    </a>
+
+                                    <!-- Eliminar -->
+                                    <a href="{% url 'eliminar_cala' cala.id %}" class="btn btn-action btn-delete">
+                                        Eliminar
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="3" class="text-center py-4">
+                                <span class="text-muted">
+                                    No hay calas registradas.
+                                </span>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="py-4 mt-auto">
+        <div class="container text-center">
+            <small>
+                © 2026 Mallorca Turística · Descubriendo el paraíso balear
+            </small>
+        </div>
+    </footer>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+</body>
+
+</html>
